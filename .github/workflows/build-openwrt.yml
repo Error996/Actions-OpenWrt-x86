@@ -115,10 +115,10 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P1_SH
         
    
-    - name: lenyu
+    - name: 404
       run: |
         cd openwrt 
-        bash  lenyu.sh
+        bash  404.sh
 
 
     - name: Update feeds
