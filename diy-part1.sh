@@ -19,7 +19,7 @@ echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall;packages' >
 
 mkdir -p files/usr/share
 mkdir -p files/etc/
-touch files/etc/404_version
+touch files/etc/v404_version
 mkdir wget
 touch wget/DISTRIB_REVISION1
 touch wget/DISTRIB_REVISION3
@@ -39,7 +39,7 @@ rm -rf  bin/targets/x86/64/openwrt-x86-64-generic.manifest
 rm -rf bin/targets/x86/64/sha256sums
 rm -rf  bin/targets/x86/64/version.buildinfo
 sleep 2
-rename_version=`cat files/etc/404_version`
+rename_version=`cat files/etc/v404_version`
 str1=`grep "KERNEL_PATCHVER:="  target/linux/x86/Makefile | cut -d = -f 2` #判断当前默认内核版本号如5.10
 ver414=`grep "LINUX_VERSION-4.14 ="  include/kernel-4.14 | cut -d . -f 3`
 ver419=`grep "LINUX_VERSION-4.19 ="  include/kernel-4.19 | cut -d . -f 3`
@@ -76,9 +76,9 @@ EOF
 
 cat>404.sh<<-\EOOF
 #!/bin/bash
-404_version="`date '+%y%m%d%H%M'`" 
-echo $404_version >  wget/DISTRIB_REVISION1 
-echo $404_version | cut -d _ -f 1 >  files/etc/404_version  
+v404_version="`date '+%y%m%d%H%M'`" 
+echo $v404_version >  wget/DISTRIB_REVISION1 
+echo $v404_version | cut -d _ -f 1 >  files/etc/v404_version  
 #######
 new_DISTRIB_REVISION=`cat  wget/DISTRIB_REVISION1`
 grep "DISTRIB_REVISION="  package/lean/default-settings/files/zzz-default-settings | cut -d \' -f 2 >  wget/DISTRIB_REVISION3
@@ -110,7 +110,7 @@ cat>files/usr/share/Check_Update.sh<<-\EOF
 #path=$(dirname $(readlink -f $0))
 # cd ${path}
 #检测准备
-if [ ! -f  "/etc/404_version" ]; then
+if [ ! -f  "/etc/v404_version" ]; then
 	echo
 	echo -e "\033[31m 该脚本在非404固件上运行，为避免不必要的麻烦，准备退出… \033[0m"
 	echo
@@ -118,7 +118,7 @@ if [ ! -f  "/etc/404_version" ]; then
 fi
 rm -f /tmp/cloud_version
 # 获取固件云端版本号、内核版本号信息
-current_version=`cat /etc/404_version`
+current_version=`cat /etc/v404_version`
 wget -qO- -t1 -T2 "https://api.github.com/repos/Error996/Actions-OpenWrt-x86/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g'  > /tmp/cloud_ts_version
 if [ -s  "/tmp/cloud_ts_version" ]; then
 	cloud_version=`cat /tmp/cloud_ts_version | cut -d _ -f 1`
@@ -256,7 +256,7 @@ cat>files/usr/share/404-auto.sh<<-\EOF
 #path=$(dirname $(readlink -f $0))
 # cd ${path}
 #检测准备
-if [ ! -f  "/etc/404_version" ]; then
+if [ ! -f  "/etc/v404_version" ]; then
 	echo
 	echo -e "\033[31m 该脚本在非404固件上运行，为避免不必要的麻烦，准备退出… \033[0m"
 	echo
@@ -264,7 +264,7 @@ if [ ! -f  "/etc/404_version" ]; then
 fi
 rm -f /tmp/cloud_version
 # 获取固件云端版本号、内核版本号信息
-current_version=`cat /etc/404_version`
+current_version=`cat /etc/v404_version`
 wget -qO- -t1 -T2 "https://api.github.com/repos/Error996/Actions-OpenWrt-x86/releases/latest" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g'  > /tmp/cloud_ts_version
 if [ -s  "/tmp/cloud_ts_version" ]; then
 	cloud_version=`cat /tmp/cloud_ts_version | cut -d _ -f 1`
@@ -328,4 +328,3 @@ fi
 
 exit 0
 EOF
-
