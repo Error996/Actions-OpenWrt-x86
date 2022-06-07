@@ -76,7 +76,7 @@ EOF
 
 cat>404.sh<<-\EOOF
 #!/bin/bash
-v404_version="`date '+%y%m%d%H%M'`" 
+v404_version="`date '+%Y%m%d%H%M'`" 
 echo $v404_version >  wget/DISTRIB_REVISION1 
 echo $v404_version | cut -d _ -f 1 >  files/etc/v404_version  
 #######
