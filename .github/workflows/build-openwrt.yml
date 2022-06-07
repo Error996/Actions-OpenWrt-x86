@@ -114,6 +114,11 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
         
+    - name: lenyu
+      run: |
+        cd openwrt 
+        bash  lenyu.sh
+    
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
