@@ -72,7 +72,7 @@ jobs:
       with:
        ccache: 'true' #'true' 默认值
        #清空缓存
-       clean:  'false'  # 'false' 默认值
+       clean:  'true'  # 'false' 默认值
        prefix: ${{ github.workspace }}/openwrt
     
     - name: luci-app-openclash install
@@ -114,13 +114,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
         
-   
-    - name: lenyu
-      run: |
-        cd openwrt 
-        bash  lenyu.sh
-
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
